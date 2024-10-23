@@ -1,7 +1,7 @@
 'use server';
 
 import db from './db';
-import { profileSchema } from './schemas';
+import { profileSchema, validateWithZodSchema } from './schemas';
 import { auth, clerkClient, currentUser, User } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -26,7 +26,7 @@ export const createProfileAction = async (prevState: any, formData: FormData) =>
     if (!user) throw new Error('You must be logged in, please back to homepage');
 
     const rawData = Object.fromEntries(formData);
-    const validatedFields = profileSchema.parse(rawData);
+    const validatedFields = validateWithZodSchema(profileSchema, rawData)
 
     await db.profile.create({
       data: {
@@ -86,7 +86,7 @@ export const updateProfileAction = async (
 
   try {
     const rawData = Object.fromEntries(formData);
-    const validatedFields = profileSchema.parse(rawData);
+    const validatedFields = validateWithZodSchema(profileSchema, rawData)
 
     await db.profile.update({
       where: {
