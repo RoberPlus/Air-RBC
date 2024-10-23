@@ -1,7 +1,7 @@
 'use server';
 
 import db from './db';
-import { profileSchema, validateWithZodSchema } from './schemas';
+import { imageSchema, profileSchema, validateWithZodSchema } from './schemas';
 import { auth, clerkClient, currentUser, User } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -15,9 +15,9 @@ const getAuthUser = async (): Promise<User> => {
   return user;
 };
 
-const renderError = (error:unknown):{message:string}=>{
+const renderError = (error: unknown): { message: string } => {
   return { message: error instanceof Error ? error.message : 'An error occurred!' };
-}
+};
 
 export const createProfileAction = async (prevState: any, formData: FormData) => {
   try {
@@ -26,7 +26,7 @@ export const createProfileAction = async (prevState: any, formData: FormData) =>
     if (!user) throw new Error('You must be logged in, please back to homepage');
 
     const rawData = Object.fromEntries(formData);
-    const validatedFields = validateWithZodSchema(profileSchema, rawData)
+    const validatedFields = validateWithZodSchema(profileSchema, rawData);
 
     await db.profile.create({
       data: {
@@ -45,7 +45,7 @@ export const createProfileAction = async (prevState: any, formData: FormData) =>
       },
     });
   } catch (error) {
-    return renderError(error)
+    return renderError(error);
   }
   redirect('/');
 };
@@ -86,7 +86,7 @@ export const updateProfileAction = async (
 
   try {
     const rawData = Object.fromEntries(formData);
-    const validatedFields = validateWithZodSchema(profileSchema, rawData)
+    const validatedFields = validateWithZodSchema(profileSchema, rawData);
 
     await db.profile.update({
       where: {
@@ -98,6 +98,16 @@ export const updateProfileAction = async (
     revalidatePath('/profile');
     return { message: 'Profile Updated!' };
   } catch (error) {
-    return renderError(error)
+    return renderError(error);
   }
+};
+
+export const updateProfileImageAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
+  const image = formData.get('image') as File;
+  const validateFields = validateWithZodSchema(imageSchema, { image });
+
+  return { message: 'Profile image updated successfully' };
 };
