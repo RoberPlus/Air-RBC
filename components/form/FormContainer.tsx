@@ -3,7 +3,7 @@
 import { useActionState } from 'react';
 import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { actionFunction } from '../../lib/types';
+import { actionFunction } from '@/types/types';
 
 const initialState = {
   message: '',

@@ -1,5 +1,5 @@
 import { Label } from '@/components/ui/label';
-import { categories } from '../../lib/categories';
+import { categories } from '@/lib/categories';
 import {
   Select,
   SelectContent,

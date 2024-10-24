@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 import FormContainer from './FormContainer';
 import ImageInput from './ImageInput';
 import SubmitButton from './SubmitButton';
-import { type actionFunction } from '../../lib/types';
+import { type actionFunction } from '@/types/types';
 import { LuUser2 } from 'react-icons/lu';
 
 type ImageInputContainerProps = {
@@ -48,7 +48,7 @@ const ImageInputContainer = (props: ImageInputContainerProps) => {
           <FormContainer action={action}>
             {props.children}
             <ImageInput />
-            <SubmitButton size='sm'/>
+            <SubmitButton size="sm" />
           </FormContainer>
         </div>
       )}
