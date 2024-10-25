@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Button } from '../ui/button';
 import FormContainer from './FormContainer';
 import ImageInput from './ImageInput';
-import SubmitButton from './SubmitButton';
+import SubmitButton from './Buttons';
 import { type actionFunction } from '@/types/types';
 import { LuUser2 } from 'react-icons/lu';
 
@@ -36,7 +36,11 @@ const ImageInputContainer = (props: ImageInputContainerProps) => {
       ) : (
         userIcon
       )}
-      <Button variant="outline" size="sm" onClick={() => setUpdateFormVisible((prevState) => !prevState)}>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setUpdateFormVisible((prevState) => !prevState)}
+      >
         {text}
       </Button>
       {isUpdateFormVisible && (

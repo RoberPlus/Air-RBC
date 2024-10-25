@@ -1,7 +1,7 @@
 import { updateProfileAction, fetchProfile, updateProfileImageAction } from '../../lib/actions';
 import FormContainer from '@/components/form/FormContainer';
 import FormInput from '@/components/form/FormInput';
-import SubmitButton from '../../components/form/SubmitButton';
+import SubmitButton from '../../components/form/Buttons';
 import ImageInputContainer from '@/components/form/ImageInputContainer';
 
 const ProfilePage = async () => {
