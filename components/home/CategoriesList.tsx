@@ -7,7 +7,7 @@ function CategoriesList({ category, search }: { category?: string; search?: stri
 
   return (
     <section>
-      <ScrollArea className="py-5">
+      <ScrollArea className="pb-5">
         <div className="flex gap-x-3">
           {categories.map((item) => {
             const isActive = item.label === category;
