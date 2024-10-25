@@ -1,4 +1,4 @@
-import { IconType } from 'react-icons';
+import { Amenity } from '@/types/types';
 import {
   FaUtensils,
   FaWifi,
@@ -22,12 +22,6 @@ import {
   FaCoffee,
   FaMugHot,
 } from 'react-icons/fa';
-
-export type Amenity = {
-  name: string;
-  icon: IconType;
-  selected: boolean;
-};
 
 export const amenities: Amenity[] = [
   { name: 'Kitchen', icon: FaUtensils, selected: false },

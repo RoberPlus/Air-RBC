@@ -11,6 +11,7 @@ import {
 
 const CountriesInput = ({ defaultValue }: { defaultValue?: string }) => {
   const name = 'country';
+
   return (
     <div className="mb-2">
       <Label htmlFor={name} className="capitalize">
@@ -35,4 +36,5 @@ const CountriesInput = ({ defaultValue }: { defaultValue?: string }) => {
     </div>
   );
 };
+
 export default CountriesInput;

@@ -7,6 +7,7 @@ type PriceInputProps = {
 
 const PriceInput = ({defaultValue = 100}:PriceInputProps) => {
   const name = 'price'
+  
   return (
     <div className="mb-2">
       <Label htmlFor={name}>

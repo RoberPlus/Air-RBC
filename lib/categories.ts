@@ -1,67 +1,34 @@
 import { IconType } from 'react-icons';
-import { MdCabin } from 'react-icons/md';
-import { TbCaravan, TbTent, TbBuildingCottage } from 'react-icons/tb';
-import { GiWoodCabin, GiMushroomHouse } from 'react-icons/gi';
-import { PiWarehouse, PiLighthouse, PiVan } from 'react-icons/pi';
-import { GoContainer } from 'react-icons/go';
+import { CategoryLabel } from '@/types/types';
+import {
+  FaHome,
+  FaWater,
+  FaTree,
+  FaHouzz,
+  FaCity,
+  FaUmbrellaBeach,
+  FaArchway,
+  FaMountain,
+  FaHorseHead,
+  FaWineGlass,
+  FaHotel,
+} from 'react-icons/fa';
 
 type Category = {
   label: CategoryLabel;
   icon: IconType;
 };
 
-export type CategoryLabel =
-  | 'Cabin'
-  | 'Tent'
-  | 'Airstream'
-  | 'Cottage'
-  | 'Container'
-  | 'Caravan'
-  | 'Tiny'
-  | 'Magic'
-  | 'Marehouse'
-  | 'Lodge';
-
 export const categories: Category[] = [
-  {
-    label: 'Cabin',
-    icon: MdCabin,
-  },
-  {
-    label: 'Airstream',
-    icon: PiVan,
-  },
-  {
-    label: 'Tent',
-    icon: TbTent,
-  },
-  {
-    label: 'Marehouse',
-    icon: PiWarehouse,
-  },
-  {
-    label: 'Cottage',
-    icon: TbBuildingCottage,
-  },
-  {
-    label: 'Magic',
-    icon: GiMushroomHouse,
-  },
-  {
-    label: 'Container',
-    icon: GoContainer,
-  },
-  {
-    label: 'Caravan',
-    icon: TbCaravan,
-  },
-
-  {
-    label: 'Tiny',
-    icon: PiLighthouse,
-  },
-  {
-    label: 'Lodge',
-    icon: GiWoodCabin,
-  },
+  { label: 'Cabin', icon: FaHome },
+  { label: 'Apartment', icon: FaHotel },
+  { label: 'Lakefront', icon: FaWater },
+  { label: 'National Parks', icon: FaMountain },
+  { label: 'Countryside', icon: FaHorseHead },
+  { label: 'Treehouse', icon: FaTree },
+  { label: 'Design', icon: FaHouzz },
+  { label: 'Historical Homes', icon: FaArchway },
+  { label: 'Iconic Cities', icon: FaCity },
+  { label: 'Tropical', icon: FaUmbrellaBeach },
+  { label: 'Vineyards', icon: FaWineGlass },
 ];

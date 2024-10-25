@@ -79,7 +79,10 @@ export const fetchProfile = async () => {
   return profile;
 };
 
-export const updateProfileAction = async (prevState: any, formData: FormData): Promise<{ message: string }> => {
+export const updateProfileAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
   const user = await getAuthUser();
 
   try {
@@ -100,7 +103,10 @@ export const updateProfileAction = async (prevState: any, formData: FormData): P
   }
 };
 
-export const updateProfileImageAction = async ( prevState: any, formData: FormData): Promise<{ message: string }> => {
+export const updateProfileImageAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
   const user = await getAuthUser();
 
   try {
@@ -125,7 +131,10 @@ export const updateProfileImageAction = async ( prevState: any, formData: FormDa
   }
 };
 
-export const createPropertyAction = async (prevState: any,formData: FormData): Promise<{ message: string }> => {
+export const createPropertyAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
   const user = await getAuthUser();
 
   try {
@@ -149,7 +158,13 @@ export const createPropertyAction = async (prevState: any,formData: FormData): P
   redirect('/');
 };
 
-export const fetchProperties = async ({ search = '', category }: { search?: string; category?: string }) => {
+export const fetchProperties = async ({
+  search = '',
+  category,
+}: {
+  search?: string;
+  category?: string;
+}) => {
   const properties = await db.property.findMany({
     where: {
       category,
@@ -165,6 +180,9 @@ export const fetchProperties = async ({ search = '', category }: { search?: stri
       country: true,
       image: true,
       price: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
     },
   });
 

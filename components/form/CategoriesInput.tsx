@@ -35,4 +35,5 @@ const CategoriesInput = ({ defaultValue }: { defaultValue?: string }) => {
     </div>
   );
 }
+
 export default CategoriesInput;

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { amenities, Amenity } from '@/lib/amenities';
+import { Amenity } from '@/types/types';
+import { amenities } from '@/lib/amenities';
 import { Checkbox } from '@/components/ui/checkbox';
 
 const AmenitiesInput = ({ defaultValue }: { defaultValue?: Amenity[] }) => {

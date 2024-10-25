@@ -36,11 +36,7 @@ const ImageInputContainer = (props: ImageInputContainerProps) => {
       ) : (
         userIcon
       )}
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setUpdateFormVisible((prevState) => !prevState)}
-      >
+      <Button variant="outline" size="sm" onClick={() => setUpdateFormVisible((prevState) => !prevState)}>
         {text}
       </Button>
       {isUpdateFormVisible && (
