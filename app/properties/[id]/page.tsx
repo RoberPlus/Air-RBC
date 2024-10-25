@@ -11,6 +11,7 @@ import UserInfo from '@/components/properties/UserInfo';
 import { Separator } from '@/components/ui/separator';
 import Description from '@/components/properties/Description';
 import Amenities from '@/components/properties/Amenities';
+import ClientDynamicMap from '@/components/properties/ClientDynamicMap';
 
 async function PropertyDetailsPage({ params }: { params: { id: string } }) {
   const property = await fetchPropertyDetails(params.id);
@@ -45,6 +46,7 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
           <Separator className="mt-4" />
           <Description description={property.description} />
           <Amenities amenities={property.amenities} />
+          <ClientDynamicMap countryCode={property.country} />
         </div>
         <div className="lg:col-span-4">
           <BookingCalendar />
