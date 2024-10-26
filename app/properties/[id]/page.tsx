@@ -12,6 +12,8 @@ import { Separator } from '@/components/ui/separator';
 import Description from '@/components/properties/Description';
 import Amenities from '@/components/properties/Amenities';
 import ClientDynamicMap from '@/components/properties/ClientDynamicMap';
+import SubmitReview from '../../../components/reviews/SubmitReview';
+import PropertyReviews from '@/components/reviews/PropertyReviews';
 
 type Params = {
   id: string;
@@ -60,6 +62,8 @@ const PropertyDetailsPage = async ({ params }: PageProps) => {
           <BookingCalendar />
         </div>
       </section>
+      <SubmitReview propertyId={property.id} />
+      <PropertyReviews propertyId={property.id} />
     </section>
   );
 };
