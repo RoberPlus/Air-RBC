@@ -5,7 +5,6 @@ import ShareButton from '@/components/properties/ShareButton';
 import { fetchPropertyDetails, findExistingReview } from '@/lib/actions';
 import { redirect } from 'next/navigation';
 import PropertyRating from '../../../components/card/PropertyRating';
-import BookingCalendar from '@/components/properties/booking/BookingCalendar';
 import PropertyDetails from '@/components/properties/PropertyDetails';
 import UserInfo from '@/components/properties/UserInfo';
 import { Separator } from '@/components/ui/separator';
@@ -15,6 +14,7 @@ import ClientDynamicMap from '@/components/properties/ClientDynamicMap';
 import SubmitReview from '../../../components/reviews/SubmitReview';
 import PropertyReviews from '@/components/reviews/PropertyReviews';
 import { auth } from '@clerk/nextjs/server';
+import ClientBookingWrapper from '@/components/bookings/ClientBookingWrapper';
 
 type Params = {
   id: string;
@@ -64,8 +64,12 @@ const PropertyDetailsPage = async ({ params }: PageProps) => {
           <Amenities amenities={property.amenities} />
           <ClientDynamicMap countryCode={property.country} />
         </div>
-        <div className="lg:col-span-4">
-          <BookingCalendar />
+        <div className="lg:col-span-4 flex flex-col items-center">
+          <ClientBookingWrapper
+            propertyId={property.id}
+            price={property.price}
+            bookings={property.bookings}
+          />
         </div>
       </section>
       {reviewDoesNotExist && <SubmitReview propertyId={property.id} />}
