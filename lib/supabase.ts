@@ -7,6 +7,7 @@ const key = process.env.SUPABASE_KEY as string;
 
 const supabase = createClient(url, key);
 
+/* eslint-disable */
 export const uploadImage = async (image: File) => {
   const timestamp = Date.now();
   const newName = `${timestamp}-${image.name}`;

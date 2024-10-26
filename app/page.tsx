@@ -3,21 +3,26 @@ import PropertiesContainer from '@/components/home/PropertiesContainer';
 import { Suspense } from 'react';
 import LoadingCards from '@/components/card/LoadingCards';
 
-async function HomePage({
-  searchParams,
-}: {
-  searchParams: { category?: string; search?: string };
-}) {
-  // console.log(searchParams);
+type SearchParams = {
+  category?: string;
+  search?: string;
+};
+
+interface PageProps {
+  searchParams: Promise<SearchParams>;
+}
+
+const HomePage = async ({ searchParams }: PageProps) => {
+  const { category, search } = await searchParams;
 
   return (
     <section>
-      <CategoriesList category={searchParams?.category} search={searchParams?.search} />
-      <Suspense fallback={<LoadingCards/>}>
-        <PropertiesContainer category={searchParams?.category} search={searchParams?.search} />
+      <CategoriesList category={category} search={search} />
+      <Suspense fallback={<LoadingCards />}>
+        <PropertiesContainer category={category} search={search} />
       </Suspense>
     </section>
   );
-}
+};
 
 export default HomePage;

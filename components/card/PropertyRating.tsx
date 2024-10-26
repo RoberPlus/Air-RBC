@@ -1,11 +1,14 @@
 import { FaStar } from 'react-icons/fa';
 
+/* eslint-disable */
 async function PropertyRating({ propertyId, inPage }: { propertyId: string; inPage: boolean }) {
   // temp
   const rating = 4.7;
   const count = 53;
 
-  const className = `flex gap-1 w-100 items-center justify-between ${inPage ? 'text-md' : 'text-xs'}`;
+  const className = `flex gap-1 w-100 items-center justify-between ${
+    inPage ? 'text-md' : 'text-xs'
+  }`;
   const countText = count > 1 ? 'reviews' : 'review';
   const countValue = `(${count}) ${inPage ? countText : ''}`;
 

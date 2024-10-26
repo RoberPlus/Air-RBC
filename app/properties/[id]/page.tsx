@@ -13,8 +13,16 @@ import Description from '@/components/properties/Description';
 import Amenities from '@/components/properties/Amenities';
 import ClientDynamicMap from '@/components/properties/ClientDynamicMap';
 
-async function PropertyDetailsPage({ params }: { params: { id: string } }) {
-  const property = await fetchPropertyDetails(params.id);
+type Params = {
+  id: string;
+};
+interface PageProps {
+  params: Promise<Params>;
+}
+
+const PropertyDetailsPage = async ({ params }: PageProps) => {
+  const { id } = await params;
+  const property = await fetchPropertyDetails(id);
 
   if (!property) redirect('/');
 
@@ -54,6 +62,6 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
       </section>
     </section>
   );
-}
+};
 
 export default PropertyDetailsPage;

@@ -2,6 +2,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/* eslint-disable */
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 

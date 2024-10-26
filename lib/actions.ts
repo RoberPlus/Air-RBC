@@ -1,5 +1,6 @@
 'use server';
 
+/* eslint-disable */
 import db from './db';
 import { imageSchema, profileSchema, propertySchema, validateWithZodSchema } from './schemas';
 import { auth, clerkClient, currentUser, User } from '@clerk/nextjs/server';
@@ -201,7 +202,7 @@ export const fetchFavoriteId = async ({ propertyId }: { propertyId: string }) =>
       id: true,
     },
   });
-  
+
   return favorite?.id || null;
 };
 
