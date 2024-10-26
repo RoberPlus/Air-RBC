@@ -1,10 +1,10 @@
 import { FaStar } from 'react-icons/fa';
+import { fetchPropertyRating } from '@/lib/actions';
 
-/* eslint-disable */
 async function PropertyRating({ propertyId, inPage }: { propertyId: string; inPage: boolean }) {
-  // temp
-  const rating = 4.7;
-  const count = 53;
+  const { rating, count } = await fetchPropertyRating(propertyId);
+
+  if (count === 0) return null;
 
   const className = `flex gap-1 w-100 items-center justify-between ${
     inPage ? 'text-md' : 'text-xs'

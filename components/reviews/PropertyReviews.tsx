@@ -20,6 +20,7 @@ async function PropertyReviews({ propertyId }: { propertyId: string }) {
             name: firstName,
             image: profileImage,
           };
+          
           return <ReviewCard key={review.id} reviewInfo={reviewInfo} />;
         })}
       </div>

@@ -9,6 +9,7 @@ function Comment({ comment }: { comment: string }) {
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
+  
   const longComment = comment.length > 130;
   const displayComment = longComment && !isExpanded ? `${comment.slice(0, 130)}...` : comment;
 

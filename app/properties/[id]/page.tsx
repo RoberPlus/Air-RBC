@@ -2,7 +2,7 @@ import FavoriteToggleButton from '@/components/card/FavoriteToggleButton';
 import BreadCrumbs from '@/components/properties/BreadCrumbs';
 import ImageContainer from '@/components/properties/ImageContainer';
 import ShareButton from '@/components/properties/ShareButton';
-import { fetchPropertyDetails } from '@/lib/actions';
+import { fetchPropertyDetails, findExistingReview } from '@/lib/actions';
 import { redirect } from 'next/navigation';
 import PropertyRating from '../../../components/card/PropertyRating';
 import BookingCalendar from '@/components/properties/booking/BookingCalendar';
@@ -14,6 +14,7 @@ import Amenities from '@/components/properties/Amenities';
 import ClientDynamicMap from '@/components/properties/ClientDynamicMap';
 import SubmitReview from '../../../components/reviews/SubmitReview';
 import PropertyReviews from '@/components/reviews/PropertyReviews';
+import { auth } from '@clerk/nextjs/server';
 
 type Params = {
   id: string;
@@ -33,6 +34,11 @@ const PropertyDetailsPage = async ({ params }: PageProps) => {
 
   const firstName = property.profile.firstName;
   const profileImage = property.profile.profileImage;
+
+  const { userId }: { userId: string | null } = await auth();
+  const isNotOwner = property.profile.clerkId !== userId;
+  const reviewDoesNotExist =
+    userId && isNotOwner && !(await findExistingReview(userId, property.id));
 
   return (
     <section>
@@ -62,7 +68,8 @@ const PropertyDetailsPage = async ({ params }: PageProps) => {
           <BookingCalendar />
         </div>
       </section>
-      <SubmitReview propertyId={property.id} />
+      {reviewDoesNotExist && <SubmitReview propertyId={property.id} />}
+
       <PropertyReviews propertyId={property.id} />
     </section>
   );
