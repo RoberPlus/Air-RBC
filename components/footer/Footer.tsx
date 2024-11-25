@@ -5,8 +5,8 @@ import { Github, Linkedin, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
-    <>
-      <div className="mt-10 flex flex-col items-center justify-center space-y-10 border-t-2 border-secondary py-10 md:mx-7 md:flex-row md:justify-between md:space-y-0">
+    <div className="mt-10 border-t">
+      <div className="container flex flex-col flex-wrap items-center gap-4 space-y-4 px-4 py-8 sm:flex-row sm:justify-between md:space-y-0 md:px-8">
         {/* Logo */}
         <div>
           <Link href="/">
@@ -48,15 +48,21 @@ const Footer = () => {
 
         {/* Socials  */}
         <div>
-          <Button className="ml-2 hover:text-primary" variant="secondary">
-            <Twitter className="h-6 w-6" />
-          </Button>
-          <Button className="ml-2 hover:text-primary" variant="secondary">
-            <Linkedin className="h-6 w-6" />
-          </Button>
-          <Button className="ml-2 hover:text-primary" variant="secondary">
-            <Github className="h-6 w-6" />
-          </Button>
+          <Link href="https://www.linkedin.com/in/rbcardenas/">
+            <Button className="ml-2 hover:text-primary" variant="secondary">
+              <Twitter className="h-6 w-6" />
+            </Button>
+          </Link>
+          <Link href="https://www.linkedin.com/in/rbcardenas/">
+            <Button className="ml-2 hover:text-primary" variant="secondary">
+              <Linkedin className="h-6 w-6" />
+            </Button>
+          </Link>
+          <Link href="https://github.com/RoberPlus">
+            <Button className="ml-2 hover:text-primary" variant="secondary">
+              <Github className="h-6 w-6" />
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -66,7 +72,7 @@ const Footer = () => {
           Copyright © 2024 Air RBC - All rights reserved
         </span>
       </div>
-    </>
+    </div>
   );
 };
 
