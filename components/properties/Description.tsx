@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Title from "./Title";
+import { Separator } from "../ui/separator";
 
 const Description = ({ description }: { description: string }) => {
   const [isFullDescriptionShown, setIsFullDescriptionShown] = useState(false);
@@ -19,17 +20,20 @@ const Description = ({ description }: { description: string }) => {
       : description;
 
   return (
-    <div className="mt-4">
-      <Title text="Description" />
-      <p className="font-light leading-loose text-muted-foreground">
-        {displayedDescription}
-      </p>
-      {isLongDescription && (
-        <Button variant="link" className="pl-0" onClick={toggleDescription}>
-          {isFullDescriptionShown ? "Show less" : "Show more"}
-        </Button>
-      )}
-    </div>
+    <>
+      <div className="mt-4">
+        <Title text="Description" />
+        <p className="font-light leading-loose text-muted-foreground">
+          {displayedDescription}
+        </p>
+        {isLongDescription && (
+          <Button variant="link" className="pl-0" onClick={toggleDescription}>
+            {isFullDescriptionShown ? "Show less" : "Show more"}
+          </Button>
+        )}
+      </div>
+      <Separator className="mt-4" />
+    </>
   );
 };
 

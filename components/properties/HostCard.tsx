@@ -15,7 +15,7 @@ function HostCard({ profile: { profileImage, firstName } }: UserInfoProps) {
     <div>
       <Separator className="my-4" />
       <Title text="Meet your Host" />
-      <article className="my-5 flex w-1/2 rounded-2xl p-5 shadow-xl">
+      <article className="my-5 flex rounded-2xl p-5 shadow-xl md:w-1/2">
         <div className="flex w-2/3 -translate-x-3 flex-col items-center justify-center space-y-2 text-center">
           <div className="relative h-32 w-32">
             <Image
@@ -79,7 +79,6 @@ function HostCard({ profile: { profileImage, firstName } }: UserInfoProps) {
           sustainability
         </p>
       </div>
-      <Separator className="mt-4" />
     </div>
   );
 }

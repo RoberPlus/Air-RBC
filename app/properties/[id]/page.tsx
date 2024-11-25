@@ -16,6 +16,7 @@ import { auth } from "@clerk/nextjs/server";
 import ClientBookingWrapper from "@/components/bookings/ClientBookingWrapper";
 import Title from "@/components/properties/Title";
 import HostCard from "@/components/properties/HostCard";
+import { Separator } from "@/components/ui/separator";
 
 type Params = {
   id: string;
@@ -77,7 +78,7 @@ const PropertyDetailsPage = async ({ params }: PageProps) => {
           <PropertyReviews propertyId={property.id} />
 
           {/* Booking Calendar Mobile */}
-          <div className="mt-5 flex flex-col items-center md:hidden lg:col-span-4">
+          <div className="mt-5 flex flex-col items-center md:hidden">
             <Title text="Booking" />
             <ClientBookingWrapper
               propertyId={property.id}
@@ -85,20 +86,24 @@ const PropertyDetailsPage = async ({ params }: PageProps) => {
               bookings={property.bookings}
             />
           </div>
+          <Separator className="mt-4 flex md:hidden" />
           <ClientDynamicMap countryCode={property.country} />
 
           {/* Bottom Host Info */}
           <HostCard profile={{ firstName, profileImage }} />
         </div>
-        <div className="mt-5 hidden flex-col items-center md:flex lg:col-span-4">
-          <div className="-ml-14">
+
+        {/* Booking Calendar Desktop */}
+        <div className="mt-5 hidden h-full flex-1 flex-col md:col-span-4 md:flex">
+          <div className="sticky top-5 flex flex-col text-center">
             <Title text="Booking" />
+
+            <ClientBookingWrapper
+              propertyId={property.id}
+              price={property.price}
+              bookings={property.bookings}
+            />
           </div>
-          <ClientBookingWrapper
-            propertyId={property.id}
-            price={property.price}
-            bookings={property.bookings}
-          />
         </div>
       </section>
       {reviewDoesNotExist && userId && (
