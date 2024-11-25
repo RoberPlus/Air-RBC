@@ -1,45 +1,51 @@
-'use server';
+"use server";
 
 /* eslint-disable */
-import db from './db';
+import db from "./db";
 import {
   createReviewSchema,
   imageSchema,
   profileSchema,
   propertySchema,
   validateWithZodSchema,
-} from './schemas';
-import { auth, clerkClient, currentUser, User } from '@clerk/nextjs/server';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import { uploadImage } from './supabase';
-import { calculateTotals } from './calculateTotals';
-import { formatDate } from './utils';
+} from "./schemas";
+import { auth, clerkClient, currentUser, User } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { uploadImage } from "./supabase";
+import { calculateTotals } from "./calculateTotals";
+import { formatDate } from "./utils";
 
 const getAuthUser = async (): Promise<User> => {
   const user = await currentUser();
 
-  if (!user) throw new Error('You must be logged in, please back to homepage');
-  if (!user.privateMetadata.hasProfile) redirect('/profile/create');
+  if (!user) throw new Error("You must be logged in, please back to homepage");
+  if (!user.privateMetadata.hasProfile) redirect("/profile/create");
 
   return user;
 };
 
 const getAdminUser = async () => {
   const user = await getAuthUser();
-  if (user.id !== process.env.ADMIN_USER_ID) redirect('/');
+  if (user.id !== process.env.ADMIN_USER_ID) redirect("/");
   return user;
 };
 
 const renderError = (error: unknown): { message: string } => {
-  return { message: error instanceof Error ? error.message : 'An error occurred!' };
+  return {
+    message: error instanceof Error ? error.message : "An error occurred!",
+  };
 };
 
-export const createProfileAction = async (prevState: any, formData: FormData) => {
+export const createProfileAction = async (
+  prevState: any,
+  formData: FormData,
+) => {
   try {
     const user = await currentUser();
 
-    if (!user) throw new Error('You must be logged in, please back to homepage');
+    if (!user)
+      throw new Error("You must be logged in, please back to homepage");
 
     const rawData = Object.fromEntries(formData);
     const validatedFields = validateWithZodSchema(profileSchema, rawData);
@@ -48,7 +54,7 @@ export const createProfileAction = async (prevState: any, formData: FormData) =>
       data: {
         clerkId: user?.id,
         email: user.emailAddresses[0].emailAddress,
-        profileImage: user.imageUrl ?? '',
+        profileImage: user.imageUrl ?? "",
         ...validatedFields,
       },
     });
@@ -63,7 +69,7 @@ export const createProfileAction = async (prevState: any, formData: FormData) =>
   } catch (error) {
     return renderError(error);
   }
-  redirect('/');
+  redirect("/");
 };
 
 export const fetchProfileImage = async () => {
@@ -90,13 +96,13 @@ export const fetchProfile = async () => {
     },
   });
 
-  if (!profile) redirect('/profile/create');
+  if (!profile) redirect("/profile/create");
   return profile;
 };
 
 export const updateProfileAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
 
@@ -111,8 +117,8 @@ export const updateProfileAction = async (
       data: validatedFields,
     });
 
-    revalidatePath('/profile');
-    return { message: 'Profile Updated!' };
+    revalidatePath("/profile");
+    return { message: "Profile Updated!" };
   } catch (error) {
     return renderError(error);
   }
@@ -120,12 +126,12 @@ export const updateProfileAction = async (
 
 export const updateProfileImageAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
 
   try {
-    const image = formData.get('image') as File;
+    const image = formData.get("image") as File;
     const validateFields = validateWithZodSchema(imageSchema, { image });
     const fullPath = await uploadImage(validateFields.image);
 
@@ -138,9 +144,9 @@ export const updateProfileImageAction = async (
       },
     });
 
-    revalidatePath('/profile');
+    revalidatePath("/profile");
 
-    return { message: 'Profile image updated successfully' };
+    return { message: "Profile image updated successfully" };
   } catch (error) {
     return renderError(error);
   }
@@ -148,13 +154,13 @@ export const updateProfileImageAction = async (
 
 export const createPropertyAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
 
   try {
     const rawData = Object.fromEntries(formData);
-    const file = formData.get('image') as File;
+    const file = formData.get("image") as File;
     const validateFields = validateWithZodSchema(propertySchema, rawData);
     const validatedFile = validateWithZodSchema(imageSchema, { image: file });
 
@@ -170,11 +176,11 @@ export const createPropertyAction = async (
   } catch (error) {
     return renderError(error);
   }
-  redirect('/');
+  redirect("/");
 };
 
 export const fetchProperties = async ({
-  search = '',
+  search = "",
   category,
 }: {
   search?: string;
@@ -184,8 +190,8 @@ export const fetchProperties = async ({
     where: {
       category,
       OR: [
-        { name: { contains: search, mode: 'insensitive' } },
-        { tagline: { contains: search, mode: 'insensitive' } },
+        { name: { contains: search, mode: "insensitive" } },
+        { tagline: { contains: search, mode: "insensitive" } },
       ],
     },
     select: {
@@ -197,14 +203,18 @@ export const fetchProperties = async ({
       price: true,
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
 
   return properties;
 };
 
-export const fetchFavoriteId = async ({ propertyId }: { propertyId: string }) => {
+export const fetchFavoriteId = async ({
+  propertyId,
+}: {
+  propertyId: string;
+}) => {
   const user = await getAuthUser();
 
   const favorite = await db.favorite.findFirst({
@@ -245,7 +255,9 @@ export const toggleFavoriteAction = async (prevState: {
     }
 
     revalidatePath(pathname);
-    return { message: favoriteId ? 'Removed from Favorites' : 'Added to Favorites' };
+    return {
+      message: favoriteId ? "Removed from Favorites" : "Added to Favorites",
+    };
   } catch (error) {
     return renderError(error);
   }
@@ -291,7 +303,10 @@ export const fetchPropertyDetails = async (id: string) => {
   });
 };
 
-export const createReviewAction = async (prevState: any, formData: FormData) => {
+export const createReviewAction = async (
+  prevState: any,
+  formData: FormData,
+) => {
   const user = await getAuthUser();
 
   try {
@@ -306,7 +321,7 @@ export const createReviewAction = async (prevState: any, formData: FormData) => 
     });
 
     revalidatePath(`/properties/${validatedFields.propertyId}`);
-    return { message: 'Review submitted successfully' };
+    return { message: "Review submitted successfully" };
   } catch (error) {
     return renderError(error);
   }
@@ -329,7 +344,7 @@ export async function fetchPropertyReviews(propertyId: string) {
       },
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
 
@@ -350,6 +365,7 @@ export const fetchPropertyReviewsByUser = async () => {
         select: {
           name: true,
           image: true,
+          id: true,
         },
       },
     },
@@ -370,8 +386,8 @@ export const deleteReviewAction = async (prevState: { reviewId: string }) => {
       },
     });
 
-    revalidatePath('/reviews');
-    return { message: 'Review deleted successfully' };
+    revalidatePath("/reviews");
+    return { message: "Review deleted successfully" };
   } catch (error) {
     return renderError(error);
   }
@@ -379,7 +395,7 @@ export const deleteReviewAction = async (prevState: { reviewId: string }) => {
 
 export async function fetchPropertyRating(propertyId: string) {
   const result = await db.review.groupBy({
-    by: ['propertyId'],
+    by: ["propertyId"],
     _avg: {
       rating: true,
     },
@@ -390,10 +406,16 @@ export async function fetchPropertyRating(propertyId: string) {
       propertyId,
     },
   });
-  return { rating: result[0]?._avg.rating?.toFixed() ?? 0, count: result[0]?._count.rating ?? 0 };
+  return {
+    rating: result[0]?._avg.rating?.toFixed(1) ?? 0,
+    count: result[0]?._count.rating ?? 0,
+  };
 }
 
-export const findExistingReview = async (userId: string, propertyId: string) => {
+export const findExistingReview = async (
+  userId: string,
+  propertyId: string,
+) => {
   return db.review.findFirst({
     where: {
       profileId: userId,
@@ -425,7 +447,7 @@ export const createBookingAction = async (prevState: {
   });
 
   if (!property) {
-    return { message: 'Property not found' };
+    return { message: "Property not found" };
   }
   const { orderTotal, totalNights } = calculateTotals({
     checkIn,
@@ -469,7 +491,7 @@ export const fetchBookings = async () => {
       },
     },
     orderBy: {
-      checkIn: 'desc',
+      checkIn: "desc",
     },
   });
   return bookings;
@@ -487,8 +509,8 @@ export async function deleteBookingAction(prevState: { bookingId: string }) {
       },
     });
 
-    revalidatePath('/bookings');
-    return { message: 'Booking deleted successfully' };
+    revalidatePath("/bookings");
+    return { message: "Booking deleted successfully" };
   } catch (error) {
     return renderError(error);
   }
@@ -534,7 +556,7 @@ export async function fetchRentals() {
         totalNightsSum: totalNightsSum._sum.totalNights,
         orderTotalSum: orderTotalSum._sum.orderTotal,
       };
-    })
+    }),
   );
 
   return rentalsWithBookingSums;
@@ -552,8 +574,8 @@ export async function deleteRentalAction(prevState: { propertyId: string }) {
       },
     });
 
-    revalidatePath('/rentals');
-    return { message: 'Rental deleted successfully' };
+    revalidatePath("/rentals");
+    return { message: "Rental deleted successfully" };
   } catch (error) {
     return renderError(error);
   }
@@ -572,10 +594,10 @@ export const fetchRentalDetails = async (propertyId: string) => {
 
 export const updatePropertyAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
-  const propertyId = formData.get('id') as string;
+  const propertyId = formData.get("id") as string;
 
   try {
     const rawData = Object.fromEntries(formData);
@@ -591,7 +613,7 @@ export const updatePropertyAction = async (
     });
 
     revalidatePath(`/rentals/${propertyId}/edit`);
-    return { message: 'Update Successful' };
+    return { message: "Update Successful" };
   } catch (error) {
     return renderError(error);
   }
@@ -599,13 +621,13 @@ export const updatePropertyAction = async (
 
 export const updatePropertyImageAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
-  const propertyId = formData.get('id') as string;
+  const propertyId = formData.get("id") as string;
 
   try {
-    const image = formData.get('image') as File;
+    const image = formData.get("image") as File;
     const validatedFields = validateWithZodSchema(imageSchema, { image });
     const fullPath = await uploadImage(validatedFields.image);
 
@@ -619,7 +641,7 @@ export const updatePropertyImageAction = async (
       },
     });
     revalidatePath(`/rentals/${propertyId}/edit`);
-    return { message: 'Property Image Updated Successful' };
+    return { message: "Property Image Updated Successful" };
   } catch (error) {
     return renderError(error);
   }
@@ -637,7 +659,7 @@ export const fetchReservations = async () => {
     },
 
     orderBy: {
-      createdAt: 'desc', // or 'asc' for ascending order
+      createdAt: "desc", // or 'asc' for ascending order
     },
 
     include: {
@@ -687,23 +709,26 @@ export const fetchChartsData = async () => {
       },
     },
     orderBy: {
-      createdAt: 'asc',
+      createdAt: "asc",
     },
   });
 
-  let bookingsPerMonth = bookings.reduce((total, current) => {
-    const date = formatDate(current.createdAt, true);
+  let bookingsPerMonth = bookings.reduce(
+    (total, current) => {
+      const date = formatDate(current.createdAt, true);
 
-    const existingEntry = total.find((entry) => entry.date === date);
+      const existingEntry = total.find((entry) => entry.date === date);
 
-    if (existingEntry) {
-      existingEntry.count += 1;
-    } else {
-      total.push({ date, count: 1 });
-    }
+      if (existingEntry) {
+        existingEntry.count += 1;
+      } else {
+        total.push({ date, count: 1 });
+      }
 
-    return total;
-  }, [] as Array<{ date: string; count: number }>);
+      return total;
+    },
+    [] as Array<{ date: string; count: number }>,
+  );
 
   return bookingsPerMonth;
 };

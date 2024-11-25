@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { Calendar } from '@/components/ui/calendar';
-import { useEffect, useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
-import { DateRange } from 'react-day-picker';
-import { useProperty } from '@/lib/store';
+import { Calendar } from "@/components/ui/calendar";
+import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { DateRange } from "react-day-picker";
+import { useProperty } from "@/lib/store";
 
 import {
   generateDisabledDates,
   generateDateRange,
   defaultSelected,
   generateBlockedPeriods,
-} from '@/lib/calendar';
+} from "@/lib/calendar";
 
 function BookingCalendar() {
   const currentDate = new Date();
@@ -33,11 +33,11 @@ function BookingCalendar() {
 
   useEffect(() => {
     const selectedRange = generateDateRange(range);
-    const isDisabledDateIncluded = selectedRange.some((date) => {
+    selectedRange.some((date) => {
       if (unavailableDates[date]) {
         setRange(defaultSelected);
         toast({
-          description: 'Some dates are booked. Please select again.',
+          description: "Some dates are booked. Please select again.",
         });
         return true;
       }
@@ -52,7 +52,7 @@ function BookingCalendar() {
       defaultMonth={currentDate}
       selected={range}
       onSelect={setRange}
-      className="mb-4"
+      className="mb-4 w-full p-0"
       // add disabled
       disabled={blockedPeriods}
     />

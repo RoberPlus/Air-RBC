@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 import { redirect } from 'next/navigation';
 
-import { type NextRequest, type NextResponse } from 'next/server';
+import { type NextRequest } from 'next/server';
 import db from '@/lib/db';
 
 export const GET = async (req: NextRequest) => {
@@ -11,7 +11,6 @@ export const GET = async (req: NextRequest) => {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(session_id);
-    // console.log(session);
 
     const bookingId = session.metadata?.bookingId;
     if (session.status === 'complete' && bookingId) {

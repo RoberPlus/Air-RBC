@@ -1,6 +1,9 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import Rating from './Rating';
-import Comment from './Comment';
+"use client";
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Rating from "./Rating";
+import Comment from "./Comment";
+import { redirect } from "next/navigation";
 
 type ReviewCardProps = {
   reviewInfo: {
@@ -8,22 +11,36 @@ type ReviewCardProps = {
     rating: number;
     name: string;
     image: string;
+    id?: string;
   };
   children?: React.ReactNode;
 };
 
 function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
+  const handleClick = () => {
+    if (reviewInfo.id) {
+      redirect(`/properties/${reviewInfo.id}`);
+    } else {
+      return null;
+    }
+  };
+
   return (
     <Card className="relative">
-      <CardHeader>
+      <CardHeader
+        onClick={handleClick}
+        className={`${reviewInfo.id && "cursor-pointer"}`}
+      >
         <div className="flex items-center">
           <img
             src={reviewInfo.image}
             alt="profile"
-            className="w-12 h-12 rounded-full object-cover"
+            className="h-12 w-12 rounded-full object-cover"
           />
           <div className="ml-4">
-            <h3 className="text-sm font-bold capitalize mb-1">{reviewInfo.name}</h3>
+            <h3 className="mb-1 text-sm font-bold capitalize">
+              {reviewInfo.name}
+            </h3>
             <Rating rating={reviewInfo.rating} />
           </div>
         </div>
@@ -32,7 +49,7 @@ function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
         <Comment comment={reviewInfo.comment} />
       </CardContent>
       {/* delete button later */}
-      <div className="absolute top-3 right-3">{children}</div>
+      <div className="absolute right-3 top-3">{children}</div>
     </Card>
   );
 }
